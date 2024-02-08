@@ -71,3 +71,20 @@ def get_db() -> connection.MySQLConnection:
             password=password,
             database=db_name
             )
+
+
+def main():
+    """main function that returns nothing"""
+    db = get_db()
+    cursor = db.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM users;")
+    logger = get_logger()
+    for row in cursor:
+        line = ''
+        for key, value in row.items():
+            line += f'{key}={value}; '
+        logger.info(line)
+
+
+if __name__ == "__main__":
+    main()
