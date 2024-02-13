@@ -2,8 +2,8 @@
 """module for BasicAuth class"""
 
 import base64
-
 from api.v1.auth.auth import Auth
+from models.user import User
 
 
 class BasicAuth(Auth):
@@ -35,3 +35,15 @@ class BasicAuth(Auth):
                 .decode('utf-8')
         except (base64.binascii.Error, UnicodeDecodeError):
             return None
+
+    def extract_user_credentials(
+            self, decoded_base64_authorization_header: str) -> (str, str):
+        """Extracts user credentials from an decoded Authorization header."""
+        if not decoded_base64_authorization_header \
+                or not isinstance(decoded_base64_authorization_header, str) \
+                or ':' not in decoded_base64_authorization_header:
+            return None, None
+        line = decoded_base64_authorization_header.split(':')
+        email = line[0]
+        password = ':'.join(line[1:])
+        return email, password
