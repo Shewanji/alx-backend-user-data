@@ -58,4 +58,3 @@ class DB:
             if not hasattr(User, key):
                 raise ValueError()
             setattr(user, key, value)
-
