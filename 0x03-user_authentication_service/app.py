@@ -73,5 +73,22 @@ def logout():
         return jsonify({"message": "Forbidden"}), 403
 
 
+@app.route("/profile", methods=["GET"])
+def profile():
+    """Profile endpoint"""
+
+    # Retrieve session ID from the cookie
+    session_id = request.cookies.get("session_id")
+
+    # Find user with the requested session ID
+    user = AUTH.get_user_from_session_id(session_id)
+
+    # If user exists, respond with user's email and 200 status
+    if user:
+        return jsonify({"email": user.email}), 200
+    else:
+        return jsonify({"message": "Forbidden"}), 403
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port="5000")
