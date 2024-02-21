@@ -8,6 +8,7 @@ from sqlalchemy.orm.exc import NoResultFound
 import uuid
 from typing import Union
 
+
 def _hash_password(password: str) -> bytes:
     """Hashes a password using bcrypt with salt"""
 
