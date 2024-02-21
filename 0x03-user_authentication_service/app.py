@@ -90,5 +90,24 @@ def profile():
         return jsonify({"message": "Forbidden"}), 403
 
 
+@app.route("/reset_password", methods=["POST"])
+def get_reset_password_token():
+    """Endpoint to generate a reset password token"""
+
+    # Retrieve email from form data
+    email = request.form.get("email")
+
+    try:
+        # Generate reset password token for the provided email
+        reset_token = AUTH.get_reset_password_token(email)
+
+        # Respond with JSON payload containing email and reset_token
+        return jsonify({"email": email, "reset_token": reset_token}), 200
+
+    except ValueError:
+        # If email is not registered, respond with a 403 status code
+        abort(403)
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port="5000")
